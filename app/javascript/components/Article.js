@@ -12,7 +12,7 @@ class Article extends React.Component {
           <div className="article-body">
             {this.props.description}
           <div className="article-meta-details">
-            <small>Created by: {this.props.author}
+            <small>Created by: {this.props.author},
               <Timestamp relative date={this.props.created_at} autoUpdate /> ago,
                   last updated: <Timestamp relative date={this.props.updated_at} autoUpdate /></small>
           </div>
@@ -20,13 +20,25 @@ class Article extends React.Component {
       </React.Fragment>
     );
   }
+  componentDidMount() {
+    var self = this;
+    setInterval(function() {
+      self.forceUpdate() }, 1000);
+  }
+
+  componentWillUnmount(){
+    if (this._timer){
+      clearInterval(this._timer);
+      this._timer = null;
+    }
+  }
 }
 
 Article.propTypes = {
   title: PropTypes.string,
   path: PropTypes.string,
   description: PropTypes.string,
-  // username: PropTypes.string,
+  author: PropTypes.string,
   created_at: PropTypes.string,
   updated_at: PropTypes.string
 };
